@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\UserException;
+use App\Models\User;
 use App\Repositories\AuthRepository;
 use App\Repositories\AuthRepositoryInterface;
 use App\Traits\ResponseTrait;
@@ -23,10 +24,9 @@ class AuthService
     public function register(array $data)
     {
         try {
-            $user = $this->authRepository->register($data);
+            $userWithToken = $this->authRepository->register($data);
 
-            return $this->successWithData($user, 'Registered successfully', 201);
-
+            return $this->successWithData($userWithToken, 'Registered successfully', 201);
         }catch (\Exception $e) {
             return $this->failed($e->getMessage(), 422);
         }
@@ -35,9 +35,20 @@ class AuthService
     public function login(array $credentials)
     {
         try {
-            $token = $this->authRepository->login($credentials);
+            $userWithToken = $this->authRepository->login($credentials);
 
-            return $this->userToken($token);
+            return $this->successWithData($userWithToken, 'logged in successfully');
+        }catch (\Exception $e){
+            return $this->failed($e->getMessage(), 422);
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            auth('api')->logout();
+
+            return $this->successWithMessage('logged out successfully');
         }catch (\Exception $e){
             return $this->failed($e->getMessage(), 422);
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\IsTeacher;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -16,18 +17,23 @@ class AuthController extends Controller
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
+
+        $this->middleware(['auth:api'])->only('logout');
     }
 
     public function register(RegisterRequest $request)
     {
-//        dd($request->safe()->all());
         return $this->authService->register($request->safe()->all());
     }
 
     public function login(LoginRequest $request)
     {
-//        dd($request->safe()->all());
         return $this->authService->login($request->safe()->all());
+    }
+
+    public function logout()
+    {
+        return $this->authService->logout();
     }
 
 

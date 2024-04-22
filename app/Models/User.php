@@ -36,7 +36,6 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'email_verified_at',
-        'type',
         'created_at',
         'updated_at'
     ];
@@ -68,18 +67,15 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'user_type' => $this->user_type
+        ];
     }
 
     /**
      * RELATIONS
      *
      */
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
-
     public function subjects()
     {
         return $this->belongsToMany(Subject::class,'teachers_has_subjects');

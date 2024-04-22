@@ -6,7 +6,6 @@ use App\Exceptions\UserException;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Traits\StorePhotoTrait;
-use Brick\Math\Exception\MathException;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -47,9 +46,10 @@ class AuthRepository implements AuthRepositoryInterface
             }
 
             if($data['user_type'] === 'teacher')
-                foreach ($data['subject'] as $subject)
-                    $user->subjects()->attach($subject);
-
+            {
+                foreach ($data['subject'] as $subject_id)
+                    $user->subjects()->attach($subject_id);
+            }
 
             $user->save();
 
@@ -62,7 +62,7 @@ class AuthRepository implements AuthRepositoryInterface
         }
         catch (\Exception $e){
             DB::rollBack();
-            throw new UserException(("Unable to create user: "). $e->getMessage());
+            throw new UserException("Unable to create user: " . $e->getMessage());
         }
     }
 
@@ -73,16 +73,17 @@ class AuthRepository implements AuthRepositoryInterface
 
             $token = auth('api')->attempt($credentials);
 
-            if($token)
-            {
+            if($token) {
+                $user = User::where('email', $credentials['email'])->first();
                 DB::commit();
-                return $token;
-            }
-            else
+                return $this->userWithToken($user, $token);
+            } else
                 throw new UserException('bad credentials');
         }catch (\Exception $e){
-                 throw new userException($e->getMessage());
+                 throw new userException("Unable to login: " . $e->getMessage());
         }
     }
+
+
 
 }
