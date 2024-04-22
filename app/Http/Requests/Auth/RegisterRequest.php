@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'phone' => 'required|regex:/(09)[0-9]{8}$/|unique:users',
             'school' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:255',
-            'subject' => $this->input('user_type') === 'teacher' ? 'required|array' : '', // Subject is required if user_type is teacher
+            'subject' => $this->input('user_type') === 'teacher' ? 'required|array|exists:subjects,id' : 'missing', // Subject is required if user_type is teacher
             'avatar' => 'nullable|image|max:2048', // 2MB max file size, only image files
             'password' => 'required|string|min:8', // todo max password size ?
         ];
