@@ -41,7 +41,7 @@ class AuthRepository implements AuthRepositoryInterface
             ]);
 
             if (isset($data['avatar'])) {
-                $user->avatar = $this->store($data['avatar'], 'users-avatars');
+                $user->avatar = $this->store($data['avatar'],'user-avatars');
             } else {
                 $user->avatar = null;
             }

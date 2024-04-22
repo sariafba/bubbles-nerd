@@ -17,3 +17,4 @@ trait StorePhotoTrait
         return Storage::url($location.'/'.$fileNameToStore);
     }
 }
+
