@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::group(['prefix'=>'course'], function () {
+    Route::get('/index',   [CourseController::class,'index']);
+    Route::get('/show/{id}',     [CourseController::class,'getById']);
+    Route::post('/create',[CourseController::class,'create']);
+    Route::put('/update/{id}',[CourseController::class,'update']);
+    Route::delete('/delete/{id}',[CourseController::class,'delete']);
+
+});
