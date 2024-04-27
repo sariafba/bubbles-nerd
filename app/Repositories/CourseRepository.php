@@ -8,6 +8,7 @@ use App\Exceptions\courseNotFoundException;
 use App\Models\Course;
 use App\Traits\ResponseTrait;
 use App\Traits\StorePhotoTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CourseRepository implements CourseRepositoryInterface
@@ -32,7 +33,7 @@ class CourseRepository implements CourseRepositoryInterface
         if (!$course) {
             throw new courseNotFoundException();
         }
-        return $this->course;
+        return $course;
 
     }
 
@@ -45,6 +46,8 @@ class CourseRepository implements CourseRepositoryInterface
             $course->price = $data['price'];
             $course->old_price = $data['old_price'];
             $course->description = $data['description'];
+            $course->user_id = Auth::id();
+            $course->subjects_id =$data['subject_id'];
             if (isset($data['photo'])) {
                 $course->photo = $this->store($data['photo'], 'Course_photos');
             }else{
@@ -52,10 +55,9 @@ class CourseRepository implements CourseRepositoryInterface
             }
             $course->save();
 
-            DB::commit();
+
             return $course->fresh();
         }catch(Exception $e){
-            DB::rollBack();
             throw new CourseCreatinoException(("Unable to create course: "). $e->getMessage());
 
         }
@@ -76,12 +78,12 @@ class CourseRepository implements CourseRepositoryInterface
             $course->price = $data['price']??$course->price;
             $course->old_price = $data['old_price']??$course->old_price;
             $course->description = $data['description']??$course->description;
+            $course->user_id = Auth::id()??$course->user_id;
+           // $course->subjects_id =$data['subject_id'];
             if (isset($data['photo'])) {
                 $course->photo = $this->store($data['photo'], 'Course_photos');
-            }else{
-                $course->photo =null;
             }
-            $course->update();
+            $course->save();
 
             DB::commit();
             return $course->fresh();

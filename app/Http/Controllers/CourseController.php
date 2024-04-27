@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Services\CourseService;
+use Illuminate\Http\Request;
 
 
 class CourseController extends Controller
@@ -15,7 +16,7 @@ class CourseController extends Controller
     public function __construct(CourseService $courseService)
     {
         $this->courseService = $courseService;
-        //$this->middleware(['auth:api'])->only('create');
+        $this->middleware(['auth:api'])->only('create');
 
     }
 
@@ -32,15 +33,15 @@ class CourseController extends Controller
     }
 
 
-    public function create(StoreCourseRequest $request)
+    public function create(StoreCourseRequest $data)
     {
-        return $this->courseService->create($request);
+        return $this->courseService->create($data->safe()->all());
     }
 
 
-    public function update(UpdateCourseRequest $request, $id)
+    public function update(UpdateCourseRequest $data, $id)
     {
-        return $this->courseService->update($request,$id);
+        return $this->courseService->update($data->safe()->all(),$id);
     }
 
 

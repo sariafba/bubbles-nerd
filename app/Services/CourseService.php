@@ -9,6 +9,8 @@ use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\CourseRepository;
 use App\Traits\ResponseTrait;
 use http\Client\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class CourseService
 {
@@ -36,24 +38,24 @@ class CourseService
         }
     }
 
-    public function create( Request $data)
+    public function create( array $data)
     {
         try {
-            $course = $this->courseRepository->create($data->only( 'name', 'price', 'old_price', 'photo', 'description'));
+
+            $course = $this->courseRepository->create(Arr::only($data,[ 'name', 'price', 'old_price', 'photo', 'description','user_id','subject_id']));
 
             return $this->successWithData($course, 'created successfully',201);
         }catch (courseCreatinoException $e) {
-            return $this->failed($e->getMessage(), 404);}
+            return $this->failed($e->getMessage(), 400);}
     }
 
-    public function update(Request $data, int $id)
+    public function update(array $data, int $id)
     {
         try {
-            $course = $this->courseRepository->update($data->only('name', 'price', 'old_price', 'photo', 'description'), $id);
+            $course = $this->courseRepository->update(Arr::only($data,[ 'name', 'price', 'old_price', 'photo', 'description','user_id','subject_id']),$id);
 
             return $this->successWithData($course, 'updated successfully',201);
-        } catch (courseCreatinoException $e) {
-            return $this->failed($e->getMessage(), 404);
+
         }catch (CourseUpdateException $e) {
             return $this->failed($e->getMessage(), 422);}
     }

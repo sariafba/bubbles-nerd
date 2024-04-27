@@ -11,7 +11,7 @@ class UpdateCourseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,12 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255', // max length based on typical DB VARCHAR
-            'price' => 'required|numeric|min:0|max:999999.99', // Adjust range as needed
-            'old_price' => 'required|numeric|min:0|max:999999.99', // Adjust range as needed
-            'description' => 'required|string',
+            'name' => 'string|max:255', // max length based on typical DB VARCHAR
+            'price' => 'numeric|min:0|max:999999.99', // Adjust range as needed
+            'old_price' => 'numeric|min:0|max:999999.99', // Adjust range as needed
+            'description' => 'string',
             'photo' => 'nullable|image|max:2048', // 2MB max file size, only image files
+            'subject_id'=>'int'
 
         ];
     }

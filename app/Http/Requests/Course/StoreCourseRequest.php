@@ -11,7 +11,7 @@ class StoreCourseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,8 @@ class StoreCourseRequest extends FormRequest
             'old_price' => 'required|numeric|min:0|max:999999.99', // Adjust range as needed
             'description' => 'required|string',
             'photo' => 'nullable|image|max:2048', // 2MB max file size, only image files
-
+          //  'user_id'=>'required',
+            'subject_id'=>'required'
         ];
     }
 }
