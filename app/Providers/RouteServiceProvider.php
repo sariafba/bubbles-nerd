@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Traits\ResponseTrait;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    use ResponseTrait;
     /**
      * The path to your application's "home" route.
      *
@@ -26,6 +29,13 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        RateLimiter::for('resend-email-verification', function (Request $request) {
+            return Limit::perMinutes(5,1)->by($request->user()?->id ?: $request->ip())
+                ->response(function (){
+                    return $this->failed('just one email per 5 min', 429);
+                });
         });
 
         $this->routes(function () {

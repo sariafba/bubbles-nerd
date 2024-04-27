@@ -24,9 +24,9 @@ class AuthService
     public function register(array $data)
     {
         try {
-            $userWithToken = $this->authRepository->register($data);
+            $this->authRepository->register($data);
 
-            return $this->successWithData($userWithToken, 'Registered successfully', 201);
+            return $this->successWithMessage('Register complete and need verification', 201);
         }catch (\Exception $e) {
             return $this->failed($e->getMessage(), 422);
         }
@@ -39,7 +39,7 @@ class AuthService
 
             return $this->successWithData($userWithToken, 'logged in successfully');
         }catch (\Exception $e){
-            return $this->failed($e->getMessage(), 422);
+            return $this->failed($e->getMessage(), 401);
         }
     }
 

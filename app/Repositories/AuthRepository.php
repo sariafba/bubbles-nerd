@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Traits\StorePhotoTrait;
 use Illuminate\Support\Facades\DB;
+use NextApps\VerificationCode\VerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthRepository implements AuthRepositoryInterface
@@ -51,14 +52,11 @@ class AuthRepository implements AuthRepositoryInterface
                     $user->subjects()->attach($subject_id);
             }
 
+            VerificationCode::send($user->email);
+
             $user->save();
 
             DB::commit();
-
-//            $token = JWTAuth::fromUser($user); todo: the different?
-            $token = auth('api')->login($user);
-
-            return $this->userWithToken($user, $token);
         }
         catch (\Exception $e){
             DB::rollBack();
@@ -78,7 +76,7 @@ class AuthRepository implements AuthRepositoryInterface
                 DB::commit();
                 return $this->userWithToken($user, $token);
             } else
-                throw new UserException('bad credentials');
+                throw new UserException('wrong password');
         }catch (\Exception $e){
                  throw new userException("Unable to login: " . $e->getMessage());
         }

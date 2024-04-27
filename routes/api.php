@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ Route::group(['prefix'=>'user/auth'], function (){
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::post('/email-verification', [VerificationController::class, 'emailVerification']);
+    Route::post('/resend-email-verification', [VerificationController::class, 'resendEmailVerification']);
+//        ->middleware('throttle:resend-email-verification');
 
 
 });
