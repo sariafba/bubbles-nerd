@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\EmailVerificationRequest;
-use App\Http\Requests\Auth\ResendEmailVerificationRequest;
+use App\Http\Requests\EmailVerification\EmailVerificationRequest;
+use App\Http\Requests\EmailVerification\ResendEmailVerificationRequest;
 use App\Services\VerificationService;
-use Illuminate\Http\Request;
-use NextApps\VerificationCode\VerificationCode;
 
 class VerificationController extends Controller
 {

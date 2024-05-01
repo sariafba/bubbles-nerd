@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\EmailVerification;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResendEmailVerificationRequest extends FormRequest
+class EmailVerificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,6 +22,7 @@ class ResendEmailVerificationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'code' => 'required|digits:6',
             'email' => 'required|email|exists:verification_codes,verifiable'
         ];
     }

@@ -40,19 +40,13 @@ class AuthRepository implements AuthRepositoryInterface
                 'password' => $data['password']
             ]);
 
-            if (isset($data['avatar'])) {
+            if (isset($data['avatar']))
                 $user->avatar = $this->store($data['avatar'],'user-avatars');
-            } else {
-                $user->avatar = null;
-            }
 
-            if($data['user_type'] === 'teacher')
-            {
-                foreach ($data['subject'] as $subject_id)
-                    $user->subjects()->attach($subject_id);
-            }
+            if(isset($data['subject']))
+                $user->subjects()->attach($data['subject']);
 
-            VerificationCode::send($user->email);
+//            VerificationCode::send($user->email);
 
             $user->save();
 

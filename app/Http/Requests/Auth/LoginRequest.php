@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|string', // todo max password size ?
+            'password' => 'required|string',
         ];
     }
 }

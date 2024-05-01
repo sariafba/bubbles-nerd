@@ -23,14 +23,14 @@ class RegisterRequest extends FormRequest
     {
         return [
             'user_type' => 'required|string|in:student,teacher',
-            'name' => 'required|string|unique:users|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
             'phone' => 'required|regex:/(09)[0-9]{8}$/|unique:users',
-            'school' => 'nullable|string|max:255',
-            'bio' => 'nullable|string|max:255',
+            'school' => $this->input('user_type') === 'student' ? 'required|string|max:255' : 'missing',
+            'bio' => $this->input('user_type') === 'teacher' ? 'required|string|max:255' : 'missing',
             'subject' => $this->input('user_type') === 'teacher' ? 'required|array|exists:subjects,id' : 'missing', // Subject is required if user_type is teacher
-            'avatar' => 'nullable|image|max:2048', // 2MB max file size, only image files
-            'password' => 'required|string|min:8', // todo max password size ?
+            'avatar' => 'nullable|image|max:5120', // 5MB max file size, only image files
+            'password' => 'required|string|min:8|max:255',
         ];
     }
 }

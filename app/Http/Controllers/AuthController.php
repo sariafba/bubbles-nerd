@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\IsTeacher;
-use App\Http\Middleware\IsUserVerified;
+use App\Http\Middleware\MyMiddlewares\IsUserVerified;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;

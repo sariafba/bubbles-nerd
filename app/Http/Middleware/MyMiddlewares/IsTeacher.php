@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\MyMiddlewares;
 
 use App\Traits\ResponseTrait;
 use Closure;

@@ -17,5 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/email', function () {
+Route::get('/fresh', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh --seed');
+
+    dd("migrate:fresh --seed");
 });

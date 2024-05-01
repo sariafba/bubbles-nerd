@@ -80,7 +80,11 @@ class ForgetPasswordService
         // delete current code
         $passwordReset->delete();
 
-        return $this->successWithMessage('passwords Reset completed', 200);
+        $token = auth('api')->login($user);
+
+        $user = $this->userWithToken($user,$token);
+
+        return $this->successWithData($user,'passwords Reset completed');
     }
 
 
