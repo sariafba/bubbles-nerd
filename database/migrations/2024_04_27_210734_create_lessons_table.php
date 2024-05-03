@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('video');
+            $table->foreignId('unit_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

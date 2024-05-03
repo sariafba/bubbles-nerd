@@ -30,6 +30,6 @@ class Course extends Model
     }
     public function unit(): BelongsTo
     {
-        return $this->BelongTo(Course::class);
+        return $this->belongsTo(Course::class);
     }
 }

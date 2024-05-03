@@ -55,9 +55,10 @@ class CourseRepository implements CourseRepositoryInterface
             }
             $course->save();
 
-
+            DB::commit();
             return $course->fresh();
         }catch(Exception $e){
+            DB::rollBack();
             throw new CourseCreatinoException(("Unable to create course: "). $e->getMessage());
 
         }

@@ -3,35 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
-use App\Http\Requests\StoreLessonRequest;
-use App\Http\Requests\UpdateLessonRequest;
+use App\Http\Requests\Lesson\StoreLessonRequest;
+use App\Http\Requests\Lesson\UpdateLessonRequest;
+use App\Services\LessonService;
 
 class LessonController extends Controller
 {
 
+    protected LessonService $lessonService;
+
+
+    public function __construct(LessonService $lessonService)
+    {
+        $this->lessonService = $lessonService;
+        $this->middleware(['auth:api'])->only('create');
+
+    }
+
+
     public function index()
     {
-        //
+        return $this->lessonService->index();
     }
 
 
-    public function create(StoreLessonRequest $request)
+    public function getById(int $id)
     {
-        //
+        return $this->lessonService->getById($id);
     }
 
 
-
-
-
-    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    public function create(StoreLessonRequest $data)
     {
-        //
+        return $this->lessonService->create($data->safe()->all());
     }
 
 
-    public function destroy(Lesson $lesson)
+    public function update(UpdateLessonRequest $data, $id)
     {
-        //
+        return $this->lessonService->update($data->safe()->all(), $id);
+    }
+
+
+    public function delete(int $id)
+    {
+        return $this->lessonService->delete($id);
     }
 }

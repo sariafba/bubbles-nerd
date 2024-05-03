@@ -46,7 +46,7 @@ class AuthRepository implements AuthRepositoryInterface
             if(isset($data['subject']))
                 $user->subjects()->attach($data['subject']);
 
-//            VerificationCode::send($user->email);
+            VerificationCode::send($user->email);
 
             $user->save();
 

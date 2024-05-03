@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
@@ -29,3 +30,10 @@ Route::group(['prefix'=>'course'], function () {
     Route::delete('/delete/{id}',[UnitController::class,'delete']);
 });
 
+Route::group(['prefix'=>'lesson'], function () {
+    Route::get('/index',   [lessonController::class,'index']);
+    Route::get('/getById/{id}',     [lessonController::class,'getById']);
+    Route::post('/create',[lessonController::class,'create']);
+    Route::post('/update/{id}',[lessonController::class,'update']);
+    Route::delete('/delete/{id}',[lessonController::class,'delete']);
+});
