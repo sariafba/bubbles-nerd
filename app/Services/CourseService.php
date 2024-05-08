@@ -37,12 +37,48 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
         }
     }
+    public function getByUser(int $userId)
+    {
+        try {
+            $data = $this->courseRepository->getByUser($userId);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (courseNotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
 
+    public function getBySubject(int $subjectId)
+    {
+        try {
+            $data = $this->courseRepository->getBySubject($subjectId);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (courseNotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
+    public function getWithUser(int $id)
+    {
+        try {
+            $data = $this->courseRepository->getWithUser($id);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (courseNotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
+    public function getWithLesson(int $id)
+    {
+        try {
+            $data = $this->courseRepository->getWithLesson($id);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (courseNotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
     public function create( array $data)
     {
         try {
 
-            $course = $this->courseRepository->create(Arr::only($data,[ 'name', 'price', 'old_price', 'photo', 'description','user_id','subject_id']));
+            $course = $this->courseRepository->create(Arr::only($data,[ 'name', 'price', 'old_price', 'photo', 'description','user_id','subject_id',]));
 
             return $this->successWithData($course, 'created successfully',201);
         }catch (courseCreatinoException $e) {

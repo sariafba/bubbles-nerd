@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\AuthRepository;
 use App\Repositories\AuthRepositoryInterface;
+use App\Repositories\CommentRepository;
+use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\CourseRepository;
 use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\LessonRepository;
@@ -11,6 +13,7 @@ use App\Repositories\LessonRepositoryInterface;
 use App\Repositories\UnitRepository;
 use App\Repositories\UnitRepositoryInterface;
 use App\Services\AuthService;
+use App\Services\CommentService;
 use App\Services\CourseService;
 use App\Services\LessonService;
 use App\Services\UnitService;
@@ -39,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(lessonRepositoryInterface::class, lessonRepository::class);
         $this->app->bind(lessonService::class, function ($app) {
             return new lessonService($app->make(lessonRepositoryInterface::class));
+        });
+        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
+        $this->app->bind(CommentService::class, function ($app) {
+            return new CommentService($app->make(CommentRepositoryInterface::class));
         });
     }
 

@@ -33,6 +33,21 @@ class CourseController extends Controller
     }
 
 
+    public function getByUser(int $userId)
+    {
+        return $this->courseService->getByUser($userId);
+    }
+
+    public function getWithUser(int $userId)
+    {
+        return $this->courseService->getWithUser($userId);
+    }
+
+    public function getWithLesson(int $id)
+    {
+        return $this->courseService->getWithLesson($id);
+    }
+
     public function create(StoreCourseRequest $data)
     {
         return $this->courseService->create($data->safe()->all());

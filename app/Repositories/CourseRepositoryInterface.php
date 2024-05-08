@@ -9,6 +9,8 @@ interface CourseRepositoryInterface
     public function create(array $data);
     public function update(array $data, int $id);
     public function delete(int $id);
-
+    public function getByUser(int $userId);
+    public function getWithUser(int $id);
+    public function getWithLesson(int $id);
 
 }

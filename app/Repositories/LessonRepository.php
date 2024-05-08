@@ -44,8 +44,7 @@ class LessonRepository implements LessonRepositoryInterface
             DB::beginTransaction();
             $lesson = new $this->lesson;
             $lesson->name = $data['name'];
-            $lesson->description = $data['description'];
-            $lesson->unit_id =$data['unit_id'];
+            $lesson->course_id =$data['course_id'];
             if (isset($data['video'])) {
                 $lesson->video = $this->store($data['video'], 'lesson_videos');
             }else{
@@ -73,8 +72,7 @@ class LessonRepository implements LessonRepositoryInterface
                 throw new NotFoundException();
             }
             $lesson->name = $data['name']?? $lesson->name;;
-            $lesson->description = $data['description']??$lesson->description;
-            $lesson->unit_id =$data['unit_id']??$lesson->unit_id;
+            $lesson->course_id =$data['course_id']??$lesson->unit_id;
             if (isset($data['video'])) {
                 $lesson->video = $this->store($data['video'], 'lesson_videos');
             }

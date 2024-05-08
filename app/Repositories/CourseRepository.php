@@ -1,6 +1,11 @@
 <?php
 
 namespace App\Repositories;
+use App\Exceptions\NotFoundException;
+use App\Models\Lesson;
+use App\Models\Subject;
+use App\Models\Tag;
+use App\Models\User;
 use Exception;
 use App\Exceptions\CourseCreatinoException;
 use App\Exceptions\CourseUpdateException;
@@ -37,6 +42,26 @@ class CourseRepository implements CourseRepositoryInterface
 
     }
 
+    public function getByUser(int $userId)
+    {
+
+        $user = User::with('courses')->where('id', $userId)->first();
+        return $user;
+    }
+
+    public function getWithUser(int $id)
+{
+    $course=$this->course->with('user')->where('id', $id)->first();;
+
+    return $course;
+}
+
+    public function getWithLesson(int $id)
+    {
+
+        $course=$this->course->with('lessons')->where('id', $id)->first();
+        return $course;
+    }
     public function create(array $data)
     {
         try{
@@ -47,13 +72,24 @@ class CourseRepository implements CourseRepositoryInterface
             $course->old_price = $data['old_price'];
             $course->description = $data['description'];
             $course->user_id = Auth::id();
-            $course->subjects_id =$data['subject_id'];
+            $course->subject_id =$data['subject_id'];
             if (isset($data['photo'])) {
                 $course->photo = $this->store($data['photo'], 'Course_photos');
             }else{
                 $course->photo =null;
             }
+
             $course->save();
+
+             preg_match_all('/#(\w+)/', $course->description, $matches);
+        $tag = collect($matches[1]);
+
+        $tag->each(function ($tag) use ($course) {
+            $tagModel= Tag::firstOrCreate(['name' => $tag]);
+            $course->tags()->attach($tagModel->id);
+        });
+
+
 
             DB::commit();
             return $course->fresh();

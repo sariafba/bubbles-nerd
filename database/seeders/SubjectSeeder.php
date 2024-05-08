@@ -5,23 +5,49 @@ namespace Database\Seeders;
 use App\Models\Subject;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class SubjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
 
+//    public function run(): void
+//    {
+//
+//        $subjects = [
+//            'الرياضيات',
+//            'الفيزياء',
+//            'الكيمياء',
+//            'علم الاحياء',
+//            'اللغة العربية',
+//            'اللغة الإنكليزية',
+//            'اللغة الفرنسية',
+//            'اللغة الروسية',
+//            'التربية الوطنية',
+//            'الديانة الإسلامية',
+//            'الفلسفة',
+//            'الجغرافية',
+//            'التاريخ',
+//        ];
+//
+//        foreach ($subjects as $subject)
+//        {
+//            Subject::create([
+//                'name' => $subject,
+//            ]);
+//        }
+//
+//    }
+
+    public function run()
+    {
         $subjects = [
-            'الرياضيات',
-            'الفيزياء',
-            'الكيمياء',
-            'علم الاحياء',
-            'اللغة العربية',
-            'اللغة الإنكليزية',
-            'اللغة الفرنسية',
+            'الرياضيات' => 'math.jpg',
+            'الفيزياء' => 'physics.jpg',
+            'الكيمياء' => 'chemistry.jpg',
+            'علم الاحياء'=>'science.jpg',
+            'اللغة العربية'=>'arabic.jpg',
+            'اللغة الإنكليزية'=>'english.jpg',
+            'اللغة الفرنسية'=>'franc',
             'اللغة الروسية',
             'التربية الوطنية',
             'الديانة الإسلامية',
@@ -30,13 +56,15 @@ class SubjectSeeder extends Seeder
             'التاريخ',
         ];
 
-        foreach ($subjects as $subject)
-        {
+        foreach ($subjects as $subject => $photo) {
+            $photoPath = 'storage/subjects_photo/' . $photo;
+            Storage::copy('storage/subjects_photo/' . $photo, $photoPath);
+
             Subject::create([
                 'name' => $subject,
+                'photo' => $photoPath,
             ]);
         }
-
-
     }
+
 }

@@ -22,7 +22,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('subjects_id')
+            $table->foreignId('subject_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

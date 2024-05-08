@@ -23,9 +23,8 @@ class UpdateLessonRequest extends FormRequest
     {
         return [
             'name' => 'string|max:255', // max length based on typical DB VARCHAR
-            'description' => 'string|max:255',
             'video' => 'file|max:10000000',
-            'unit_id'=>'int'
+            'course_id'=>'int'
         ];
     }
 }

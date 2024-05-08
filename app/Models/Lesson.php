@@ -15,8 +15,12 @@ class Lesson extends Model
         'description',
         'video'
 ];
-    public function unit(): BelongsTo
+    protected $hidden =[
+        'created_at',
+        'updated_at'
+    ];
+    public function Course(): BelongsTo
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Course::class);
     }
 }
