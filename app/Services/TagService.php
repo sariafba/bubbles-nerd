@@ -31,6 +31,17 @@ class TagService
         }
         return $this->successWithData($tag,'Operation completed',200);
     }
+
+    public function getTagWithCourse(String $name)
+    {
+
+        $tag=$this->tag->with('courses')->where('name', $name)->first();
+        if (!$tag) {
+            throw new NotFoundException();
+        }
+        return $this->successWithData($tag,'Operation completed',200);
+    }
+
     public function delete(int $id)
     {
         $tag = $this->tag->find($id);

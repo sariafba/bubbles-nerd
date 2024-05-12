@@ -62,6 +62,7 @@ class CourseRepository implements CourseRepositoryInterface
         $course=$this->course->with('lessons')->where('id', $id)->first();
         return $course;
     }
+
     public function create(array $data)
     {
         try{

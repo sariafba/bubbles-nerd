@@ -32,6 +32,11 @@ class TagController extends Controller
         return $this->TagService->getById($id);
     }
 
+    public function getTagWithCourse(String $name)
+    {
+        return $this->TagService->getTagWithCourse($name);
+    }
+
     public function delete(int $id)
     {
         return $this->TagService->delete($id);

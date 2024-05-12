@@ -32,10 +32,7 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function unit(): BelongsTo
-    {
-        return $this->belongsTo(Course::class);
-    }
+
 
     public function tags(): belongsToMany
     {
@@ -51,4 +48,5 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::Class);
     }
+
 }

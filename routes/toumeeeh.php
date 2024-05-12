@@ -50,6 +50,7 @@ Route::group(['prefix'=>'tag'], function () {
     Route::get('/index',   [TagController::class,'index']);
     Route::get('/getById/{id}',     [TagController::class,'getById']);
     Route::delete('/delete/{id}',[TagController::class,'delete']);
+    Route::get('/getTagWithCourse/{name}',     [TagController::class,'getTagWithCourse']);
 });
 
 Route::group(['prefix'=>'subject'], function () {
