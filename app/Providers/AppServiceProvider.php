@@ -10,12 +10,18 @@ use App\Repositories\CourseRepository;
 use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\LessonRepository;
 use App\Repositories\LessonRepositoryInterface;
+use App\Repositories\RatingRepository;
+use App\Repositories\RatingRepositoryInterface;
+use App\Repositories\ReplyOnCommentRepository;
+use App\Repositories\ReplyOnCommentRepositoryInterface;
 use App\Repositories\UnitRepository;
 use App\Repositories\UnitRepositoryInterface;
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\CourseService;
 use App\Services\LessonService;
+use App\Services\RatingService;
+use App\Services\ReplyOnCommentService;
 use App\Services\UnitService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(AuthService::class, function ($app) {
-            return new AuthService($app->make(AuthRepositoryInterface::class));
+            return new  AuthService($app->make(AuthRepositoryInterface::class));
         });
 
         $this->app->bind(CourseRepositoryInterface::class, CourseRepository::class);
@@ -46,6 +52,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
         $this->app->bind(CommentService::class, function ($app) {
             return new CommentService($app->make(CommentRepositoryInterface::class));
+        });
+        $this->app->bind(ReplyOnCommentRepositoryInterface::class, ReplyOnCommentRepository::class);
+        $this->app->bind(ReplyOnCommentService::class, function ($app) {
+            return   new ReplyOnCommentService($app->make(ReplyOnCommentRepositoryInterface::class));
+        });
+        $this->app->bind(RatingRepositoryInterface::class, RatingRepository::class);
+        $this->app->bind(RatingService::class, function ($app) {
+            return   new RatingService($app->make(RatingRepositoryInterface::class));
         });
     }
 

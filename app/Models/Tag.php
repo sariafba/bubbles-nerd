@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Tag extends Model
 {
     use HasFactory;
-protected $fillable=[
+    protected $fillable=[
     'name'
 ];
     protected $hidden =[
@@ -20,6 +21,11 @@ protected $fillable=[
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'courses_tags', 'tag_id', 'course_id');
+        return $this->morphedByMany(Course::class, 'taggable');
+    }
+
+    public function taggables()
+    {
+        return $this->morphMany(Taggable::class, 'tag');
     }
 }

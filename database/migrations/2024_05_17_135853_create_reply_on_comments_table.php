@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses_tags', function (Blueprint $table) {
+        Schema::create('reply_on_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')
+            $table->string('reply');
+            $table->foreignId('comment_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('tag_id')
+            $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses_tags');
+        Schema::dropIfExists('reply_on_comments');
     }
 };

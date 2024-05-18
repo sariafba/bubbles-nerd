@@ -34,10 +34,6 @@ class Course extends Model
 
 
 
-    public function tags(): belongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'courses_tags');
-    }
 
     public function subject()
     {
@@ -48,5 +44,12 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::Class);
     }
-
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+    public function ratings()
+    {
+    return $this->hasMany(Rating::class);
+    }
 }

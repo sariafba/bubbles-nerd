@@ -28,6 +28,10 @@ class CommentController extends Controller
         return $this->commentService->getById($id);
     }
 
+    public function getLessonWithComment(int $id)
+    {
+        return $this->commentService->getLessonWithComment($id);
+    }
 
     public function create(StorecommentRequest $data)
     {

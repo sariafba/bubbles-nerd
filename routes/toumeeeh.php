@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ReplyOnCommentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
@@ -62,4 +64,20 @@ Route::group(['prefix'=>'comment'], function () {
     Route::post('/create',[CommentController::class,'create']);
     Route::post('/update/{id}',[CommentController::class,'update']);
     Route::delete('/delete/{id}',[CommentController::class,'delete']);
+    Route::get('/getLessonWithComment/{id}',     [CommentController::class,'getLessonWithComment']);
+});
+Route::group(['prefix'=>'reply'], function () {
+    Route::get('/index',   [ReplyOnCommentController::class,'index']);
+    Route::get('/getById/{id}',     [ReplyOnCommentController::class,'getById']);
+    Route::post('/create',[ReplyOnCommentController::class,'create']);
+    Route::delete('/delete/{id}',[ReplyOnCommentController::class,'delete']);
+    Route::get('/getReplyOnComment/{id}',     [ReplyOnCommentController::class,'getReplyOnComment']);
+});
+Route::group(['prefix'=>'rating'], function () {
+    Route::get('/index',   [RatingController::class,'index']);
+    Route::get('/getById/{id}',     [RatingController::class,'getById']);
+    Route::post('/create',[RatingController::class,'create']);
+    Route::post('/update/{id}',[RatingController::class,'update']);
+    Route::delete('/delete/{id}',[RatingController::class,'delete']);
+    Route::get('/sumRatingsForCourse/{id}',     [RatingController::class,'sumRatingsForCourse']);
 });

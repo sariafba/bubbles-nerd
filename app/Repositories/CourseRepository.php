@@ -65,41 +65,42 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function create(array $data)
     {
-        try{
+        try {
             DB::beginTransaction();
+
             $course = new $this->course;
             $course->name = $data['name'];
             $course->price = $data['price'];
             $course->old_price = $data['old_price'];
             $course->description = $data['description'];
             $course->user_id = Auth::id();
-            $course->subject_id =$data['subject_id'];
-            if (isset($data['photo'])) {
-                $course->photo = $this->store($data['photo'], 'Course_photos');
-            }else{
-                $course->photo =null;
-            }
+            $course->subject_id = $data['subject_id'];
+
+            // Photo Handling
+            $course->photo = isset($data['photo'])
+                ? $this->store($data['photo'], 'Course_photos')
+                : null;
 
             $course->save();
 
-             preg_match_all('/#(\w+)/', $course->description, $matches);
-        $tag = collect($matches[1]);
+            // Tag Extraction
+            preg_match_all('/#(\w+)/', $course->description, $matches);
+            $tags = collect($matches[1]);
 
-        $tag->each(function ($tag) use ($course) {
-            $tagModel= Tag::firstOrCreate(['name' => $tag]);
-            $course->tags()->attach($tagModel->id);
-        });
-
-
+            $tags->each(function ($tagName) use ($course) {
+                $tagModel = Tag::firstOrCreate(['name' => $tagName]);
+                $course->tags()->attach($tagModel);
+            });
 
             DB::commit();
             return $course->fresh();
-        }catch(Exception $e){
-            DB::rollBack();
-            throw new CourseCreatinoException(("Unable to create course: "). $e->getMessage());
 
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new CourseCreatinoException("Unable to create course: " . $e->getMessage());
         }
     }
+
 
     public function update(array $data, int $id)
     {

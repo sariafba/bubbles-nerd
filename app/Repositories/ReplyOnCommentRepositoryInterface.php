@@ -2,12 +2,11 @@
 
 namespace App\Repositories;
 
-interface CommentRepositoryInterface
+interface ReplyOnCommentRepositoryInterface
 {
     public function index();
     public function getById(int $id);
     public function create(array $data);
-    public function update(array $data, int $id);
     public function delete(int $id);
-    public function getLessonWithComment(int $id);
+    public function getReplyOnComment(int $id);
 }
