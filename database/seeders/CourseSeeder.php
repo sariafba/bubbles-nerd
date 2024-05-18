@@ -14,7 +14,7 @@ class CourseSeeder extends Seeder
     public function run(): void
     {
         DB::table('courses')->insert([
-            'name' => 'اساسيات الوراثة',
+            'name' => 'متتاليا',
             'price' => '1000',
             'description' => 'hi this is my #first_tag',
             'photo'=>'math.jpg',
