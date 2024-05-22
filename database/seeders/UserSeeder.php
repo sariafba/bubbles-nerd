@@ -11,17 +11,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-//       DB::table('users')->insert([
-//            'user_type' => 'teacher',
-//            'name' => 'toumeh',
-//            'email' => 'wajeehxxt@gmail.com',
-//            'email_verified_at'=>'2024-05-08 15:35:53',
-//            'phone'=>'0943946262',
-//            'bio'=>'hello',
-//            'avatar'=>'arabic.jpg',
-//            'password'=> Hash::make('password'),
-//       ]);
-
         $user = User::create([
             'user_type' => 'teacher',
             'name' => 'toumeh',
@@ -34,5 +23,30 @@ class UserSeeder extends Seeder
         ]);
 
         $user->subjects()->attach(1);
+
+        $user = User::create([
+            'user_type' => 'teacher',
+            'name' => 'toumeh_2',
+            'email' => 'test@gmail.com',
+            'email_verified_at'=>'2024-05-08 15:35:53',
+            'phone'=>'0943946222',
+            'bio'=>'hello',
+            'avatar'=>'storage/user-avatars/avatar.png',
+            'password'=> Hash::make('password'),
+        ]);
+
+        $user->subjects()->attach(1);
+
+        $user = User::create([
+            'user_type' => 'student',
+            'name' => 'saria',
+            'email' => 'test_ttt@gmail.com',
+            'email_verified_at'=>'2024-05-08 15:35:53',
+            'phone'=>'0943333222',
+            'bio'=>'hello',
+            'avatar'=>'storage/user-avatars/avatar.png',
+            'password'=> Hash::make('password'),
+        ]);
+
     }
 }
