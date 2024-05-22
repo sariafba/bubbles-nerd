@@ -66,5 +66,14 @@ class LessonService
             return $this->failed($e->getMessage(), 404);
         }
     }
+    public function searchForLesson($name)
+    {
+        try {
+            $data = $this->lessonRepository->searchForLesson($name);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (NotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
 
 }

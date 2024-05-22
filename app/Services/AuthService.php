@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NotFoundException;
 use App\Exceptions\UserException;
 use App\Models\User;
 use App\Repositories\AuthRepository;
@@ -54,5 +55,19 @@ class AuthService
         }
     }
 
+    public function getAll(){
 
+      $data=$this->authRepository->getAll();
+      return $this->successWithData($data,'operation completed');
+
+    }
+    public function searchForTeacher($name)
+    {
+        try {
+            $data = $this->authRepository->searchForTeacher($name);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (NotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
 }

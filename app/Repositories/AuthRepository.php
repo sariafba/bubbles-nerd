@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\NotFoundException;
 use App\Exceptions\UserException;
 use App\Models\User;
 use App\Traits\ResponseTrait;
@@ -77,5 +78,24 @@ class AuthRepository implements AuthRepositoryInterface
     }
 
 
+    public function getAll(){
+
+        $user=User::Where('user_type','teacher')->get();
+
+        if(!$user) {
+            throw new NotFoundException();
+        }
+        return $user;
+    }
+
+    public function searchForTeacher($name)
+    {
+        $teacher= User::Where('user_type','teacher')->where('name', 'like', '%' . $name . '%')
+            ->get();
+        if (!$teacher) {
+            throw new NotFoundException();
+        }
+        return $teacher;
+    }
 
 }

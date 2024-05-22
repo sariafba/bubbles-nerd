@@ -12,7 +12,8 @@ class ReplyOnCommentController extends Controller
     public function __construct(ReplyOnCommentService $ReplyOnCommentService)
     {
         $this->replyoncommentService = $ReplyOnCommentService;
-        $this->middleware(['auth:api'])->only('create');
+
+        $this->middleware(['auth:api'])->only(['create','getReplyOnComment']);
 
     }
 

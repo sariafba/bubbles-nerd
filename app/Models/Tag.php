@@ -28,4 +28,8 @@ class Tag extends Model
     {
         return $this->morphMany(Taggable::class, 'tag');
     }
+    public function videos()
+    {
+        return $this->morphedByMany(Video::class, 'taggable');
+    }
 }

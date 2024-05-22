@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\comment;
+namespace App\Http\Requests\video;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCommentRequest extends FormRequest
+class UpdateVideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,9 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment'=>'string',
-            'lesson_id'=>'int',
-            'video_id'=>'int',
-            'user_id'=>'int'
+            'name' => 'string|max:255', // max length based on typical DB VARCHAR
+            'video' => 'file|max:10000000',
+
         ];
     }
 }

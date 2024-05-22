@@ -8,4 +8,8 @@ interface AuthRepositoryInterface
 
     public function login(array $credentials);
 
+    public function  getAll();
+
+    public function searchForTeacher($name);
+
 }

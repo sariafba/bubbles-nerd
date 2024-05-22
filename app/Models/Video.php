@@ -4,34 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class ReplyOnComment extends Model
+class Video extends Model
 {
     use HasFactory;
-
-    protected $fillable=[
-        'reply'
+    protected $fillable =[
+        'name',
+        'description',
+        'video'
     ];
     protected $hidden=[
         'created_at',
         'updated_at'
     ];
-    public function comment()
+    public function tags()
     {
-      return $this->belongsTo(Comment::class);
+        return $this->morphToMany(Tag::class, 'taggable');
     }
-    public function user()
+    public function comments(): morphToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->morphToMany(Comment::class, 'commentable');
     }
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-     public function userLike()
+    public function userLike()
     {
         return $this->morphOne(Like::class, 'likeable')
             ->where('user_id', auth()->id());
-
     }
 }

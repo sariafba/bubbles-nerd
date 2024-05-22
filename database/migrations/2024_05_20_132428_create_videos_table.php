@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->float('rating');
-            $table->foreignId('course_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->string('name');
+            $table->string('description');
+            $table->string('video');
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('videos');
     }
 };

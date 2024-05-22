@@ -49,4 +49,9 @@ class LessonController extends Controller
     {
         return $this->lessonService->delete($id);
     }
+
+    public function searchForLesson($name)
+    {
+        return $this->lessonService->searchForLesson($name);
+    }
 }

@@ -11,7 +11,8 @@ class Comment extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'comment'
+        'comment',
+        ''
     ];
     protected $hidden=[
         'created_at',
@@ -20,7 +21,7 @@ class Comment extends Model
     public function lessons(): MorphToMany
     {
     return $this->morphedByMany(Lesson::class, 'commentable');
-}
+    }
     public function commentable(): MorphTo
     {
         return $this->morphTo();
@@ -34,4 +35,20 @@ class Comment extends Model
     {
         return $this->hasMany(ReplyOnComment::class);
     }
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+    public function userLike()
+    {
+        return $this->morphOne(Like::class, 'likeable')
+            ->where('user_id', auth()->id());
+    }
+    public function videos(): MorphToMany
+    {
+        return $this->morphedByMany(video::class, 'commentable');
+    }
+
+
+
 }

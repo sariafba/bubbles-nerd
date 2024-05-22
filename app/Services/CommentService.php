@@ -42,11 +42,22 @@ class CommentService
         }
     }
 
+    public function getVideoWithComment(int $id)
+    {
+        try {
+            $data = $this->CommentRepository->getVideoWithComment($id);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (NotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
+
+
     public function create( array $data)
     {
         try {
 
-            $comment = $this->CommentRepository->create(Arr::only($data,[ 'comment','user_id','lesson_id']));
+            $comment = $this->CommentRepository->create(Arr::only($data,[ 'comment','user_id','lesson_id','video_id']));
 
             return $this->successWithData($comment, 'created successfully',201);
         }catch (FailedException$e) {
@@ -73,5 +84,7 @@ class CommentService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
+
 
 }

@@ -16,6 +16,8 @@ use App\Repositories\ReplyOnCommentRepository;
 use App\Repositories\ReplyOnCommentRepositoryInterface;
 use App\Repositories\UnitRepository;
 use App\Repositories\UnitRepositoryInterface;
+use App\Repositories\VideoRepository;
+use App\Repositories\VideoRepositoryInterface;
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\CourseService;
@@ -23,6 +25,7 @@ use App\Services\LessonService;
 use App\Services\RatingService;
 use App\Services\ReplyOnCommentService;
 use App\Services\UnitService;
+use App\Services\VideoService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -60,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RatingRepositoryInterface::class, RatingRepository::class);
         $this->app->bind(RatingService::class, function ($app) {
             return   new RatingService($app->make(RatingRepositoryInterface::class));
+        });
+        $this->app->bind( VideoRepositoryInterface::class,  VideoRepository::class);
+        $this->app->bind( VideoService::class, function ($app) {
+            return   new VideoService($app->make( VideoRepositoryInterface::class));
         });
     }
 

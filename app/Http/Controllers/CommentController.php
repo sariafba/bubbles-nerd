@@ -12,7 +12,7 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
-        $this->middleware(['auth:api'])->only('create');
+        $this->middleware(['auth:api'])->only(['create','getLessonWithComment','getVideoWithComment']);
 
     }
 
@@ -31,6 +31,11 @@ class CommentController extends Controller
     public function getLessonWithComment(int $id)
     {
         return $this->commentService->getLessonWithComment($id);
+    }
+
+    public function getVideoWithComment(int $id)
+    {
+        return $this->commentService->getvideoWithComment($id);
     }
 
     public function create(StorecommentRequest $data)

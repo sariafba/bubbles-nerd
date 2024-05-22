@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'email_verified_at'=>'2024-05-08 15:35:53',
             'phone'=>'0943946262',
             'bio'=>'hello',
-            'avatar'=>'arabic.jpg',
+            'avatar'=>'storage/user-avatars/avatar.png',
             'password'=> Hash::make('password'),
         ]);
 

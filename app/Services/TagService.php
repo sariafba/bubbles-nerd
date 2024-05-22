@@ -42,6 +42,16 @@ class TagService
         return $this->successWithData($tag,'Operation completed',200);
     }
 
+    public function getTagWithVideo(String $name)
+    {
+
+        $tag=$this->tag->with('videos')->where('name', $name)->first();
+        if (!$tag) {
+            throw new NotFoundException();
+        }
+        return $this->successWithData($tag,'Operation completed',200);
+    }
+
 
     public function delete(int $id)
     {

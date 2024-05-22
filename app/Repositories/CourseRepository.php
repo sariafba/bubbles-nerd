@@ -144,6 +144,16 @@ class CourseRepository implements CourseRepositoryInterface
 
         return $course;
     }
+    public function searchForCourse($name)
+    {
+        $course = Course::where('name', 'like', '%' . $name . '%')
+            ->get();
+        if (!$course) {
+            throw new NotFoundException();
+        }
+            return $course;
+    }
+
 }
 
 

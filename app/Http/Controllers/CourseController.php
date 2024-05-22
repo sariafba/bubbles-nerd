@@ -64,4 +64,9 @@ class CourseController extends Controller
     {
         return $this->courseService->delete($id);
     }
+    public function searchForCourse($name)
+    {
+        return $this->courseService->searchForCourse($name);
+    }
+
 }

@@ -37,6 +37,7 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
     public function getByUser(int $userId)
     {
         try {
@@ -105,5 +106,13 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
     }
 }
-
+    public function searchForCourse($name)
+    {
+        try {
+            $data = $this->courseRepository->searchForCourse($name);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (courseNotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
 }

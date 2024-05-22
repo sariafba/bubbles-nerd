@@ -37,6 +37,11 @@ class TagController extends Controller
         return $this->TagService->getTagWithCourse($name);
     }
 
+    public function getTagWithVideo(String $name)
+    {
+        return $this->TagService->getTagWithVideo($name);
+    }
+
     public function delete(int $id)
     {
         return $this->TagService->delete($id);

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\comment;
+namespace App\Http\Requests\Like;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCommentRequest extends FormRequest
+class UpdateLikeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment'=>'string',
-            'lesson_id'=>'int',
-            'video_id'=>'int',
-            'user_id'=>'int'
+            //
         ];
     }
 }

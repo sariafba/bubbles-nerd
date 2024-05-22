@@ -15,7 +15,6 @@ class RatingController extends Controller
     {
         $this->RatingService = $RatingService;
         $this->middleware(['auth:api'])->only('create');
-
     }
 
     public function index()

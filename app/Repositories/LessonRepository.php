@@ -98,4 +98,13 @@ class LessonRepository implements LessonRepositoryInterface
 
         return $lesson;
     }
+    public function searchForLesson($name)
+    {
+        $lesson= Lesson::where('name', 'like', '%' . $name . '%')
+            ->get();
+        if (!$lesson) {
+            throw new NotFoundException();
+        }
+        return $lesson;
+    }
 }

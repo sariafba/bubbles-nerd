@@ -27,9 +27,10 @@ class RatingService
     {
         try {
 
-            $Rating = $this->ratingRepository->create(Arr::only($data,[ 'rating', 'course_id',]));
+            $Rating = $this->ratingRepository->create(Arr::only($data,[ 'rating', 'course_id','user_id']));
 
             return $this->successWithData($Rating, 'created successfully',201);
+
         }catch (FailedException $e) {
             return $this->failed($e->getMessage(), 400);}
     }

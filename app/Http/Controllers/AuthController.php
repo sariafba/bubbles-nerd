@@ -38,55 +38,21 @@ class AuthController extends Controller
         return $this->authService->logout();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getAll()
     {
-        //
+        return $this->authService->getAll();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function searchForTeacher($name)
     {
-        //
+        return $this->authService->searchForTeacher($name);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
 }
+
+
+
+
+
+

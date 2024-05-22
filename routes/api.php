@@ -21,6 +21,7 @@ Route::group(['prefix'=>'user/auth'], function (){
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+
     Route::post('/email-verification', [VerificationController::class, 'emailVerification']);
     Route::post('/resend-email-verification', [VerificationController::class, 'resendEmailVerification']);
 //        ->middleware('throttle:resend-email-verification');

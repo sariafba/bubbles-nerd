@@ -43,7 +43,11 @@ Class ReplyOnCommentRepository implements ReplyOnCommentRepositoryInterface
 
     public function getReplyOnComment(int $id)
     {
-        $comment = Comment::with('reply.user:id,name,avatar')->find($id);
+        $comment = Comment::with(['reply.user:id,name,avatar',
+            'reply' => function ($query) {
+                $query->withCount('likes');
+                $query->with('userLike');
+            }])->find($id);
 
         if (!$comment) {
             throw new NotFoundException();

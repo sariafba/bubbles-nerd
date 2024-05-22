@@ -7,6 +7,7 @@ use App\Exceptions\NotFoundException;
 use App\Models\Comment;
 use App\Models\Commentable;
 use App\Models\Lesson;
+use App\Models\Video;
 use App\Models\Tag;
 use App\Traits\ResponseTrait;
 use App\Traits\StoreVideoTrait;
@@ -47,21 +48,42 @@ Class CommentRepository implements CommentRepositoryInterface
             'comments.user:id,name,avatar',
             'comments' => function ($query) {
                 $query->withCount('reply');
+                $query->withCount('likes');
+                $query->with('userLike');
+
             }
-        ])->find($id);
+            ])->find($id);
 
         if (!$lesson) {
             throw new NotFoundException();
         }
-
         return $lesson;
+    }
+
+    public function getVideoWithComment(int $id)
+    {
+        $video = Video::with([
+            'comments.user:id,name,avatar',
+            'comments' => function ($query) {
+                $query->withCount('reply');
+                $query->withCount('likes');
+                $query->with('userLike');
+            }
+
+        ])->withCount('likes')->find($id);
+
+
+        if (!$video) {
+            throw new NotFoundException();
+        }
+
+        return $video;
     }
 
     public function create(array $data)
     {
         try {
             DB::beginTransaction();
-
 
             $comment = new Comment();
             $comment->comment = $data['comment'];
@@ -73,19 +95,18 @@ Class CommentRepository implements CommentRepositoryInterface
                 $commentableType = 'App\Models\Lesson';
                 $commentableId = $data['lesson_id'];}
 
-            if (isset($data['video_id'])) {
+            if (isset($data['video_id'])){
                 $commentableType = 'App\Models\Video';
                 $commentableId = $data['video_id'];}
 
 
-
             $commentable = $commentableType::find($commentableId);
             if ($commentable) {
+
                 $commentable->comments()->save($comment);
             } else {
                 throw new Exception("Commentable entity not found.");
             }
-
             DB::commit();
 
             return $comment->fresh();
