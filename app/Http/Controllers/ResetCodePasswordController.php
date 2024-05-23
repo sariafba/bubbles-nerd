@@ -18,7 +18,9 @@ class ResetCodePasswordController
     public function __construct(ForgetPasswordService $forgetPasswordService, )
     {
         $this->forgetPasswordService = $forgetPasswordService;
+
     }
+
     public function ForgotPassword(ForgotPasswordRequest $data){
         return $this->forgetPasswordService->ForgotPassword($data);
     }

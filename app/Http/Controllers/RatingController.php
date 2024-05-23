@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MyMiddlewares\IsStudent;
 use App\Http\Requests\Rating\StoreRatingRequest;
 use Illuminate\Http\Request;
 use App\Services\RatingService;
@@ -14,7 +15,9 @@ class RatingController extends Controller
     public function __construct(RatingService $RatingService)
     {
         $this->RatingService = $RatingService;
-        $this->middleware(['auth:api'])->only('create');
+        $this->middleware(['auth:api',IsStudent::class])->only('create');
+        $this->middleware(['auth:api'])->only('sumRatingsForCourse');
+
     }
 
     public function index()

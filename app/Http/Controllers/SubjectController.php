@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
 use App\Http\Requests\subject\StoreSubjectRequest;
 use App\Http\Requests\subject\UpdateSubjectRequest;
 use App\Models\Subject;
@@ -15,8 +16,7 @@ class SubjectController extends Controller
     public function __construct(subjectService $subjectService)
     {
         $this->subjectService = $subjectService;
-        $this->middleware(['auth:api'])->only('create');
-
+        $this->middleware(['auth:api', IsAdminOrTeacher::class])->only('create');
     }
     public function index()
     {

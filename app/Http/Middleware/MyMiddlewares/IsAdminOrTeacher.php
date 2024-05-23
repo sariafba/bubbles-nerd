@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class  IsAdmin
+class  IsAdminOrTeacher
 {
     use ResponseTrait;
     /**
@@ -18,11 +18,10 @@ class  IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
 //        dd(auth('api')->payload()->get('user_type') === 'teacher');
-
-        if(auth('api')->payload()->get('user_type') === 'Admin')
+        if (auth('api')->payload()->get('user_type') === 'teacher'
+            || auth('api')->payload()->get('user_type') === 'Admin')
             return $next($request);
 
-        return $this->failed('access only for Admin', 422);
+        return $this->failed('access only for admin or teacher', 422);
     }
-
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MyMiddlewares\IsAdmin;
+use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
+use App\Http\Middleware\MyMiddlewares\IsTeacher;
 use App\Http\Requests\video\StoreVideoRequest;
 use App\Http\Requests\video\UpdateVideoRequest;
 use App\Services\VideoService;
@@ -14,8 +17,8 @@ class VideoController extends Controller
     public function __construct(videoService $videoService)
     {
         $this->videoService = $videoService;
-        $this->middleware(['auth:api'])->only('create');
-
+        $this->middleware(['auth:api', IsAdminOrTeacher::class])->only('create','delete','update');
+        $this->middleware(['auth:api'])->only('getByUser','searchForVideo');
     }
 
 

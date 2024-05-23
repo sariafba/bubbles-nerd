@@ -37,9 +37,9 @@ Class RatingRepository implements RatingRepositoryInterface
 
         if ($countOfRatings > 0) {
             $averageRating = $sumOfRatings / $countOfRatings;
-            $scaledRating = round($averageRating * 2, 1);
+            $scaledRating = round($averageRating , 1);
 
-            return  "$scaledRating/10";
+            return  "$scaledRating/5";
 
         }
 
@@ -50,7 +50,7 @@ Class RatingRepository implements RatingRepositoryInterface
         $existingRating = Rating::where('user_id', auth()->id())
             ->where('course_id', $data['course_id'])
             ->first();
-        if ($existingRating) {
+        if (!$existingRating) {
 
         return response('u already rate this course',400);}
 

@@ -13,7 +13,7 @@ class ReplyOnCommentController extends Controller
     {
         $this->replyoncommentService = $ReplyOnCommentService;
 
-        $this->middleware(['auth:api'])->only(['create','getReplyOnComment']);
+        $this->middleware(['auth:api'])->only(['create','getReplyOnComment','delete']);
 
     }
 

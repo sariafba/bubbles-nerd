@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MyMiddlewares\IsAdmin;
 use App\Http\Middleware\MyMiddlewares\IsUserVerified;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -20,7 +21,7 @@ class AuthController extends Controller
 
         $this->middleware(['auth:api'])->only('logout');
         $this->middleware(IsUserVerified::class)->only('login');
-
+        $this->middleware(['auth:api',IsAdmin::class])->only(['getAll']);
     }
 
     public function register(RegisterRequest $request)

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\MyMiddlewares\IsAdmin;
+use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
+use App\Http\Middleware\MyMiddlewares\IsTeacher;
 use App\Models\Lesson;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
@@ -16,7 +19,9 @@ class LessonController extends Controller
     public function __construct(LessonService $lessonService)
     {
         $this->lessonService = $lessonService;
-        $this->middleware(['auth:api'])->only('create');
+
+        $this->middleware(['auth:api', IsAdminOrTeacher::class])->only('create','delete','update');
+        $this->middleware(['auth:api'])->only('searchForLesson');
 
     }
 
