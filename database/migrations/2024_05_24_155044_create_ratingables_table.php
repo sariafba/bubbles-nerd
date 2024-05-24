@@ -6,29 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('ratingables', function (Blueprint $table) {
             $table->id();
-            $table->float('rating');
+            $table->unsignedBigInteger('rating_id');
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-//            $table->unsignedBigInteger('ratingable_id');
-//            $table->string('ratingable_type');
-            $table->timestamps();
+            $table->float('rating');
+
+            $table->unsignedBigInteger('ratingable_id');
+            $table->string('ratingable_type');
+
+
+            $table->foreign('rating_id')->references('id')->on('ratings')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('ratingables');
     }
 };

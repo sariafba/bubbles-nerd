@@ -35,4 +35,14 @@ class Video extends Model
         return $this->morphOne(Like::class, 'likeable')
             ->where('user_id', auth()->id());
     }
+    public function ratings()
+    {
+        return $this->morphToMany(Rating::class, 'ratingable');
+    }
+    public function userRate()
+    {
+        return $this->morphOne(Ratingable::class, 'ratingable')
+            ->where('user_id', auth()->id())
+            ->select(['id',  'rating','rating_id', 'user_id', 'ratingable_id', 'ratingable_type']);
+    }
 }

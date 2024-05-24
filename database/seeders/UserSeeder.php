@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'user_type' => 'student',
             'name' => 'saria',
-            'email' => 'test_ttt@gmail.com',
+            'email' => 'student@gmail.com',
             'email_verified_at'=>'2024-05-08 15:35:53',
             'phone'=>'0943333222',
             'bio'=>'hello',

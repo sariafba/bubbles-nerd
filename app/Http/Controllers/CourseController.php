@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\MyMiddlewares\IsAdmin;
 use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
+use App\Http\Middleware\MyMiddlewares\IsStudent;
 use App\Http\Middleware\MyMiddlewares\IsTeacher;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
@@ -30,12 +31,10 @@ class CourseController extends Controller
         return $this->courseService->index();
     }
 
-
     public function getById(int $id)
     {
         return $this->courseService->getById($id);
     }
-
 
     public function getByUser(int $userId)
     {
@@ -57,17 +56,16 @@ class CourseController extends Controller
         return $this->courseService->create($data->safe()->all());
     }
 
-
     public function update(UpdateCourseRequest $data, $id)
     {
         return $this->courseService->update($data->safe()->all(),$id);
     }
 
-
     public function delete(int $id)
     {
         return $this->courseService->delete($id);
     }
+
     public function searchForCourse($name)
     {
         return $this->courseService->searchForCourse($name);

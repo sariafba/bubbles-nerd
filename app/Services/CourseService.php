@@ -57,6 +57,7 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
     public function getWithUser(int $id)
     {
         try {
@@ -66,6 +67,7 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
     public function getWithLesson(int $id)
     {
         try {
@@ -75,6 +77,7 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
     public function create( array $data)
     {
         try {
@@ -106,6 +109,7 @@ class CourseService
             return $this->failed($e->getMessage(), 404);
     }
 }
+
     public function searchForCourse($name)
     {
         try {

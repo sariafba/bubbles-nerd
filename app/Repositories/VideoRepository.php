@@ -42,8 +42,15 @@ class VideoRepository implements VideoRepositoryInterface
     public function getByUser(int $userId)
     {
 
-        $user = User::with('videos')->where('id', $userId)->first();
+        $user = User::with(['videos' => function ($query) {
+            $query->with('userRate');
+            $query->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+            }]);
+        }])->where('id', $userId)->first();
+
         return $user;
+
     }
 
     public function create(array $data)
@@ -118,8 +125,11 @@ class VideoRepository implements VideoRepositoryInterface
     }
     public function searchForVideo($name)
     {
-        $video = Video::where('name', 'like', '%' . $name . '%')
-            ->get();
+        $video = Video::with('userRate')
+            ->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+                 }])->where('name', 'like', '%' . $name . '%')
+                ->get();
         if (!$video) {
             throw new NotFoundException();
         }

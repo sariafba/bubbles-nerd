@@ -25,6 +25,8 @@ class StoreRatingRequest extends FormRequest
             'rating' => 'required|numeric|min:1|max:5|regex:/^\d+(\.5)?$/',
             'course_id' => 'nullable|string',
             'user_id' => 'nullable|string',
+            'video_id' => 'nullable|string',
+
         ];
     }
 }

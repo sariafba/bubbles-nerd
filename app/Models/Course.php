@@ -33,8 +33,6 @@ class Course extends Model
     }
 
 
-
-
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -50,6 +48,14 @@ class Course extends Model
     }
     public function ratings()
     {
-    return $this->hasMany(Rating::class);
+        return $this->morphToMany(Rating::class, 'ratingable');
     }
+    public function userRate()
+    {
+        return $this->morphOne(Ratingable::class, 'ratingable')
+            ->where('user_id', auth()->id())
+            ->select(['id',  'rating','rating_id', 'user_id', 'ratingable_id', 'ratingable_type']);
+    }
+
+
 }

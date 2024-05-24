@@ -26,6 +26,7 @@ class CourseRepository implements CourseRepositoryInterface
     {
         $this->course = $course;
     }
+
     public function index()
     {
     return $this->course->get();
@@ -44,14 +45,24 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function getByUser(int $userId)
     {
+        $user = User::with(['courses' => function ($query) {
+            $query->with('userRate');
+            $query->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+            }]);
+        }])->where('id', $userId)->first();
 
-        $user = User::with('courses')->where('id', $userId)->first();
         return $user;
     }
 
     public function getWithUser(int $id)
 {
-    $course=$this->course->with('user')->where('id', $id)->first();;
+    $course=$this->course->with(['course' => function ($query) {
+        $query->withCount(['ratings' => function ($query) {
+
+            $query->select(DB::raw('concat(coalesce(round(avg(rating),1),0), "/5")'));
+        }]);
+    }]) ->where('id', $id)->first();
 
     return $course;
 }
@@ -101,7 +112,6 @@ class CourseRepository implements CourseRepositoryInterface
         }
     }
 
-
     public function update(array $data, int $id)
     {
 
@@ -144,9 +154,13 @@ class CourseRepository implements CourseRepositoryInterface
 
         return $course;
     }
+
     public function searchForCourse($name)
     {
-        $course = Course::where('name', 'like', '%' . $name . '%')
+        $course = Course::with('userRate')
+            ->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+            }])->where('name', 'like', '%' . $name . '%')
             ->get();
         if (!$course) {
             throw new NotFoundException();
