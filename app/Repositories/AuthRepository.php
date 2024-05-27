@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\courseNotFoundException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UserException;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Traits\StorePhotoTrait;
 use Illuminate\Support\Facades\DB;
 use NextApps\VerificationCode\VerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use function Symfony\Component\String\u;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -42,9 +44,9 @@ class AuthRepository implements AuthRepositoryInterface
             ]);
 
             if (isset($data['avatar']))
-                $user->avatar = $this->store($data['avatar'],'user-avatars');
+                $user->avatar = $this->store($data['avatar'], 'user-avatars');
 
-            if(isset($data['subject']))
+            if (isset($data['subject']))
                 $user->subjects()->attach($data['subject']);
 
             VerificationCode::send($user->email);
@@ -52,8 +54,7 @@ class AuthRepository implements AuthRepositoryInterface
             $user->save();
 
             DB::commit();
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             throw new UserException("Unable to create user: " . $e->getMessage());
         }
@@ -66,23 +67,24 @@ class AuthRepository implements AuthRepositoryInterface
 
             $token = auth('api')->attempt($credentials);
 
-            if($token) {
+            if ($token) {
                 $user = User::where('email', $credentials['email'])->first();
                 DB::commit();
                 return $this->userWithToken($user, $token);
             } else
                 throw new UserException('wrong password');
-        }catch (\Exception $e){
-                 throw new userException("Unable to login: " . $e->getMessage());
+        } catch (\Exception $e) {
+            throw new userException("Unable to login: " . $e->getMessage());
         }
     }
 
 
-    public function getAll(){
+    public function getAll()
+    {
 
-        $user=User::Where('user_type','teacher')->get();
+        $user = User::Where('user_type', 'teacher')->get();
 
-        if(!$user) {
+        if (!$user) {
             throw new NotFoundException();
         }
         return $user;
@@ -90,12 +92,54 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function searchForTeacher($name)
     {
-        $teacher= User::Where('user_type','teacher')->where('name', 'like', '%' . $name . '%')
+        $teacher = User::Where('user_type', 'teacher')->where('name', 'like', '%' . $name . '%')
             ->get();
         if (!$teacher) {
             throw new NotFoundException();
         }
         return $teacher;
     }
+
+    public function getById(int $id)
+    {
+        $user = $this->user->where('id', $id)->get();
+
+        if (!$user) {
+            throw new NotFoundException();
+        }
+        return $user;
+
+    }
+    public function update(array $data, int $id)
+    {
+
+        try{
+            DB::beginTransaction();
+            $user = $this->user->find($id);
+
+            if (!$user) {
+                throw new courseNotFoundException();
+            }
+
+            $user->name = $data['name']?? $user->name;
+            $user->email = $data['email'] ?? $user->email;
+            $user->phone = $data['phone']?? $user->phone;
+            $user->school = $data['school'] ?? $user->school;
+            $user->bio = $data['bio'] ?? $user->bio ;
+
+            if (isset($data['avatar']))
+                $user->avatar = $this->store($data['avatar'], 'user-avatars');
+
+            $user->save();
+
+            DB::commit();
+            return $user->fresh();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new UserException("Unable to update user: " . $e->getMessage());
+        }
+    }
+
+
 
 }

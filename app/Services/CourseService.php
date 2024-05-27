@@ -48,10 +48,10 @@ class CourseService
         }
     }
 
-    public function getBySubject(int $subjectId)
+    public function getByUSerAndSubject(int $userId, int $teacherId)
     {
         try {
-            $data = $this->courseRepository->getBySubject($subjectId);
+            $data = $this->courseRepository->getByUSerAndSubject($userId,$teacherId);
             return $this->successWithData($data,  'Operation completed',200);
         } catch (courseNotFoundException $e) {
             return $this->failed($e->getMessage(), 404);

@@ -20,7 +20,8 @@ class CourseRepository implements CourseRepositoryInterface
 {
     use ResponseTrait;
     use StorePhotoTrait;
-    protected  Course $course;
+
+    protected Course $course;
 
     public function __construct(Course $course)
     {
@@ -29,12 +30,12 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function index()
     {
-    return $this->course->get();
+        return $this->course->get();
     }
 
     public function getById(int $id)
     {
-        $course =  $this->course->where('id', $id)->get();
+        $course = $this->course->where('id', $id)->get();
 
         if (!$course) {
             throw new courseNotFoundException();
@@ -52,25 +53,55 @@ class CourseRepository implements CourseRepositoryInterface
             }]);
         }])->where('id', $userId)->first();
 
+        if (!$user) {
+
+            throw  new NotFoundException('Not found');
+        }
+
         return $user;
     }
+    public function getByUSerAndSubject(int $userId,  int $subjectId)
+
+    {
+        $course = Course::with('userRate')
+          ->withCount(['ratings as average_rating' => function ($query) {
+              $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+                  }])->where('user_id', $userId)
+            ->where('subject_id', $subjectId)
+            ->first();
+        if (!$course) {
+            throw new NotFoundException();
+        }
+
+        return $course;
+
+    }
+
+
 
     public function getWithUser(int $id)
-{
-    $course=$this->course->with(['course' => function ($query) {
-        $query->withCount(['ratings' => function ($query) {
+    {
+        $course = $this->course->with('user')
+            ->where('id', $id)->first();
 
-            $query->select(DB::raw('concat(coalesce(round(avg(rating),1),0), "/5")'));
-        }]);
-    }]) ->where('id', $id)->first();
+        if (!$course) {
 
-    return $course;
-}
+            throw  new NotFoundException('Not found');
+        }
+
+        return $course;
+    }
 
     public function getWithLesson(int $id)
     {
 
-        $course=$this->course->with('lessons')->where('id', $id)->first();
+        $course = $this->course->with('lessons')->where('id', $id)->first();
+
+        if (!$course) {
+
+            throw  new NotFoundException('Not found');
+        }
+
         return $course;
     }
 
@@ -128,14 +159,13 @@ class CourseRepository implements CourseRepositoryInterface
             $course->old_price = $data['old_price']??$course->old_price;
             $course->description = $data['description']??$course->description;
             $course->user_id = Auth::id()??$course->user_id;
-           // $course->subjects_id =$data['subject_id'];
             if (isset($data['photo'])) {
                 $course->photo = $this->store($data['photo'], 'Course_photos');
             }
             $course->save();
 
             DB::commit();
-            return $course->fresh();
+
         }catch(Exception $e){
             DB::rollBack();
             throw new courseUpdateException(("Unable to update course: "). $e->getMessage());

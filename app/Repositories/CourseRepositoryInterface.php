@@ -22,4 +22,6 @@ interface CourseRepositoryInterface
 
     public function searchForCourse($name);
 
+    public function getByUSerAndSubject( int $userId, int $subjectId);
+
 }

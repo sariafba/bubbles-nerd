@@ -6,6 +6,7 @@ use App\Http\Middleware\MyMiddlewares\IsAdmin;
 use App\Http\Middleware\MyMiddlewares\IsUserVerified;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\UpdateUSerRequest;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AuthController extends Controller
     {
         $this->authService = $authService;
 
-        $this->middleware(['auth:api'])->only('logout');
+        $this->middleware(['auth:api'])->only(['logout','update']);
         $this->middleware(IsUserVerified::class)->only('login');
         $this->middleware(['auth:api',IsAdmin::class])->only(['getAll']);
     }
@@ -49,7 +50,14 @@ class AuthController extends Controller
         return $this->authService->searchForTeacher($name);
     }
 
+    public function getById(int $id)
+    {
+        return $this->authService->getById($id);
+    }
+    public function update(UpdateUSerRequest $data,int $id){
 
+        return $this->authService->update($data->safe()->all(),$id);
+    }
 }
 
 

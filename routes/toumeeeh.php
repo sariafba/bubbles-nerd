@@ -27,6 +27,8 @@ Route::group(['prefix'=>'course'], function () {
     Route::get('/getWithUser/{id}',     [CourseController::class,'getWithUser']);
     Route::get('/getWithLesson/{id}',     [CourseController::class,'getWithLesson']);
     Route::get('/searchForCourse/{name}',     [CourseController::class,'searchForCourse']);
+    Route::get('/getByUSerAndSubject/{teacherId}/{subjectId}', [CourseController::class, 'getByUSerAndSubject']);
+
 });
 
 Route::group(['prefix'=>'ResetCodePassword'], function () {
@@ -104,10 +106,14 @@ Route::group(['prefix'=>'video'], function () {
     Route::delete('/delete/{id}',[VideoController::class,'delete']);
     Route::get('/getByUser/{id}',     [VideoController::class,'getByUser']);
     Route::get('/searchForVideo/{name}',     [VideoController::class,'searchForVideo']);
+    Route::get('/getByUSerAndSubject/{teacherId}/{subjectId}', [VideoController::class, 'getByUSerAndSubject']);
+
 
 });
 
 Route::group(['prefix'=>'user'],function(){
     Route::get('getAll',[AuthController::class,'getALl']);
     Route::get('searchForTeacher/{name}',[AuthController::class,'searchForTeacher']);
+    Route::get('/getById/{id}',     [AuthController::class,'getById']);
+    Route::post('/update/{id}',[AuthController::class,'update']);
 });

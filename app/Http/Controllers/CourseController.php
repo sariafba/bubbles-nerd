@@ -25,7 +25,6 @@ class CourseController extends Controller
 
     }
 
-
     public function index()
     {
         return $this->courseService->index();
@@ -39,6 +38,10 @@ class CourseController extends Controller
     public function getByUser(int $userId)
     {
         return $this->courseService->getByUser($userId);
+    }
+    public function getByUSerAndSubject(int $userId,int $teacherId)
+    {
+        return $this->courseService->getByUSerAndSubject($userId,$teacherId);
     }
 
     public function getWithUser(int $userId)

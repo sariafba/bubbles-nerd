@@ -18,8 +18,6 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-//            $table->unsignedBigInteger('ratingable_id');
-//            $table->string('ratingable_type');
             $table->timestamps();
         });
     }

@@ -21,12 +21,10 @@ class VideoController extends Controller
         $this->middleware(['auth:api'])->only('getByUser','searchForVideo');
     }
 
-
     public function index()
     {
         return $this->videoService->index();
     }
-
 
     public function getById(int $id)
     {
@@ -37,18 +35,20 @@ class VideoController extends Controller
     {
         return $this->videoService->getByUser($userId);
     }
+    public function getByUSerAndSubject(int $userId,int $teacherId)
+    {
+        return $this->videoService->getByUSerAndSubject($userId,$teacherId);
+    }
 
     public function create(StorevideoRequest $data)
     {
         return $this->videoService->create($data->safe()->all());
     }
 
-
     public function update(UpdatevideoRequest $data, $id)
     {
         return $this->videoService->update($data->safe()->all(), $id);
     }
-
 
     public function delete(int $id)
     {

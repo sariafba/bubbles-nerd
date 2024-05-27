@@ -39,6 +39,7 @@ class VideoRepository implements VideoRepositoryInterface
         }
         return $video;
     }
+
     public function getByUser(int $userId)
     {
 
@@ -49,10 +50,30 @@ class VideoRepository implements VideoRepositoryInterface
             }]);
         }])->where('id', $userId)->first();
 
+      if (!$user){
+
+          throw  new NotFoundException('Not found');}
+
         return $user;
 
     }
 
+    public function getByUSerAndSubject(int $userId,  int $subjectId)
+
+    {
+        $video = Video::with('userRate')
+            ->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
+            }])->where('user_id', $userId)
+            ->where('subject_id', $subjectId)
+            ->first();
+        if (!$video) {
+            throw new NotFoundException();
+        }
+
+        return $video;
+
+    }
     public function create(array $data)
     {
         try{
@@ -84,7 +105,6 @@ class VideoRepository implements VideoRepositoryInterface
 
         }
     }
-
 
     public function update(array $data, int $id)
     {
@@ -123,6 +143,7 @@ class VideoRepository implements VideoRepositoryInterface
 
         return $video;
     }
+
     public function searchForVideo($name)
     {
         $video = Video::with('userRate')

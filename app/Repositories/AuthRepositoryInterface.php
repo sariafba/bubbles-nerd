@@ -12,4 +12,6 @@ interface AuthRepositoryInterface
 
     public function searchForTeacher($name);
 
+    public function update(array $data, int $id);
+
 }

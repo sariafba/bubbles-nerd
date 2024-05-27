@@ -63,7 +63,6 @@ class TagService
         return $this->successWithData($tag,'Operation completed',200);
     }
 
-
     public function delete(int $id)
     {
         $tag = $this->tag->find($id);

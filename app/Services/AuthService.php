@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\courseNotFoundException;
+use App\Exceptions\CourseUpdateException;
+use App\Exceptions\FailedException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UserException;
 use App\Models\User;
@@ -9,6 +12,7 @@ use App\Repositories\AuthRepository;
 use App\Repositories\AuthRepositoryInterface;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\URL;
 
 class AuthService
@@ -61,6 +65,7 @@ class AuthService
       return $this->successWithData($data,'operation completed');
 
     }
+
     public function searchForTeacher($name)
     {
         try {
@@ -70,4 +75,25 @@ class AuthService
             return $this->failed($e->getMessage(), 404);
         }
     }
+
+    public function getById(int $id)
+    {
+        try {
+            $data = $this->authRepository->getById($id);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (NotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
+    public function update(array $data, int $id)
+    {
+        try {
+            $user = $this->authRepository->update(Arr::only($data,[ 'name', 'user_type','phone','school','bio', 'photo',]),$id);
+
+            return $this->successWithData($user, 'updated successfully',201);
+
+        }catch (FailedException $e) {
+            return $this->failed($e->getMessage(), 422);}
+    }
+
 }

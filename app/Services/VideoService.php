@@ -45,6 +45,15 @@ class VideoService
             return $this->failed($e->getMessage(), 404);
         }
     }
+    public function getByUSerAndSubject(int $userId, int $teacherId)
+    {
+        try {
+            $data = $this->videoRepository->getByUSerAndSubject($userId,$teacherId);
+            return $this->successWithData($data,  'Operation completed',200);
+        } catch (NotFoundException $e) {
+            return $this->failed($e->getMessage(), 404);
+        }
+    }
 
     public function create( array $data)
     {

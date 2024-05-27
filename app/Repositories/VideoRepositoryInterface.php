@@ -15,4 +15,7 @@ interface VideoRepositoryInterface
     public function delete(int $id);
 
     public function searchForVideo($name);
+    
+    public function getByUSerAndSubject( int $userId, int $subjectId);
+
 }
