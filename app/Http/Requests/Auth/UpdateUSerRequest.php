@@ -12,7 +12,7 @@ class UpdateUSerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->authorizeUpdate();
+        return true;
     }
 
     /**
@@ -28,26 +28,14 @@ class UpdateUSerRequest extends FormRequest
             'email' => 'email|unique:users|max:255',
             'phone' => 'regex:/(09)[0-9]{8}$/|unique:users',
             'avatar' => 'nullable|image|max:5120', // 5MB max file size, only image files
+            'school' =>'|string|max:255',
+            'bio' => '|string|max:255' ,
         ];
 
 
         return $rules;
     }
 
-    public function authorizeUpdate(): bool
-    {
-        // Only a student can update the school
-        if ($this->has('school') && $this->user()->user_type !== 'student') {
 
-    throw new FailedException('You should be student');
-        }
-
-        // Only a teacher can update the bio
-        if ($this->has('bio') && $this->user()->user_type !== 'teacher') {
-            throw new FailedException('You should be teacher');
-        }
-
-        return true;
-    }
 
 }

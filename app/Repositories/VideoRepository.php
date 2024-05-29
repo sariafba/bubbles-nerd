@@ -66,10 +66,8 @@ class VideoRepository implements VideoRepositoryInterface
                 $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
             }])->where('user_id', $userId)
             ->where('subject_id', $subjectId)
-            ->first();
-        if (!$video) {
-            throw new NotFoundException();
-        }
+            ->get();
+
 
         return $video;
 
@@ -81,6 +79,7 @@ class VideoRepository implements VideoRepositoryInterface
             $video = new $this->video;
             $video->name = $data['name'];
             $video->description = $data['description'];
+            $video->subject_id=$data['subject_id'];
             $video->user_id=Auth::id();
             if (isset($data['video'])) {
                 $video->video = $this->store($data['video'], 'videos');
@@ -118,6 +117,7 @@ class VideoRepository implements VideoRepositoryInterface
             }
             $video->name = $data['name']?? $video->name;;
             $video->description = $data['description'] ??$video->description;
+            $video->subject_id=$data['subject_id']?? $video->subject_id;
             if (isset($data['video'])) {
                 $video->video = $this->store($data['video'], 'video');
             }

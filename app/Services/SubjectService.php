@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\NotFoundException;
 use App\Models\subject;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 
 class SubjectService
@@ -22,5 +23,14 @@ class SubjectService
             throw new NotFoundException();
         }
         return $this->successWithData($subject,'Operation completed',200);
+    }
+
+    public function getByUSer(int $teacherId)
+    {
+        $user = User::with('subjects')->findOrFail($teacherId);
+        if (!$user) {
+            throw new NotFoundException();
+        }
+        return $this->successWithData($user,'Operation completed',200);
     }
 }

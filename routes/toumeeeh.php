@@ -65,6 +65,7 @@ Route::group(['prefix'=>'tag'], function () {
 
 Route::group(['prefix'=>'subject'], function () {
     Route::get('/getBySubject/{id}',     [SubjectController::class,'getBySubject']);
+    Route::get('/getByUSer/{id}',     [SubjectController::class,'getByUSer']);
 });
 
 Route::group(['prefix'=>'comment'], function () {

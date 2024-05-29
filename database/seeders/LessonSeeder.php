@@ -16,7 +16,7 @@ class LessonSeeder extends Seeder
     {
         DB::table('lessons')->insert([
             'name'=>'first video',
-            'video'=>'storage/lesson_videos/mixkit-animation-of-futuristic-devices-99786.mp4',
+            'video'=>'/storage/lesson_videos/mixkit-animation-of-futuristic-devices-99786.mp4',
             'course_id'=>'1'
         ]);
     }

@@ -54,8 +54,8 @@ class AuthController extends Controller
     {
         return $this->authService->getById($id);
     }
-    public function update(UpdateUSerRequest $data,int $id){
-
+    public function update(UpdateUSerRequest $data,int $id)
+    {
         return $this->authService->update($data->safe()->all(),$id);
     }
 }

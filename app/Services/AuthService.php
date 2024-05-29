@@ -88,7 +88,7 @@ class AuthService
     public function update(array $data, int $id)
     {
         try {
-            $user = $this->authRepository->update(Arr::only($data,[ 'name', 'user_type','phone','school','bio', 'photo',]),$id);
+            $user = $this->authRepository->update(Arr::only($data,[ 'name', 'user_type','email','phone','school','bio', 'avatar',]),$id);
 
             return $this->successWithData($user, 'updated successfully',201);
 

@@ -57,8 +57,8 @@ class SubjectSeeder extends Seeder
         ];
 
         foreach ($subjects as $subject => $photo) {
-            $photoPath = 'storage/subjects_photo/' . $photo;
-            Storage::copy('storage/subjects_photo/' . $photo, $photoPath);
+            $photoPath = '/storage/subjects_photo/' . $photo;
+            Storage::copy('/storage/subjects_photo/' . $photo, $photoPath);
 
             Subject::create([
                 'name' => $subject,

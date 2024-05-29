@@ -27,6 +27,11 @@ class SubjectController extends Controller
     {
         return $this->subjectService->getBySubject($subjectId);
     }
+
+    public function getByUSer(int $subjectId)
+    {
+        return $this->subjectService->getByUSer($subjectId);
+    }
     public function create()
     {
         //

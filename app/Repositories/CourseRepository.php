@@ -68,7 +68,7 @@ class CourseRepository implements CourseRepositoryInterface
               $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
                   }])->where('user_id', $userId)
             ->where('subject_id', $subjectId)
-            ->first();
+            ->get();
         if (!$course) {
             throw new NotFoundException();
         }

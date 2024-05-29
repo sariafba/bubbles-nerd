@@ -59,7 +59,7 @@ class VideoService
     {
         try {
 
-            $video = $this->videoRepository->create(Arr::only($data,[ 'name', 'description','video']));
+            $video = $this->videoRepository->create(Arr::only($data,[ 'name', 'description','video','subject_id']));
 
             return $this->successWithData($video, 'created successfully',201);
         }catch (FailedException$e) {
@@ -69,7 +69,7 @@ class VideoService
     public function update(array $data, int $id)
     {
         try {
-            $video = $this->videoRepository->update(Arr::only($data,[  'name', 'description','video']),$id);
+            $video = $this->videoRepository->update(Arr::only($data,[  'name', 'description','video','subject_id']),$id);
 
             return $this->successWithData($video, 'updated successfully',201);
 

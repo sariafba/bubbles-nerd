@@ -18,7 +18,8 @@ class VideoSeeder extends Seeder
             'user_id' => 1,
             'name' => 'blablab',
             'description' => 'Asdas#tt',
-            'video' => 'storage/lesson_videos/mixkit-animation-of-futuristic-devices-99786.mp4'
+            'subject_id'=>1,
+            'video' => '/storage/lesson_videos/mixkit-animation-of-futuristic-devices-99786.mp4'
         ]);
         preg_match_all('/#(\w+)/', $video->description, $matches);
         $tags = collect($matches[1]);

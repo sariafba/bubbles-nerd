@@ -19,7 +19,7 @@ class CourseSeeder extends Seeder
             'name' => 'متتاليا',
             'price' => '1000',
             'description' => 'hi this is my #m_tag',
-            'photo'=>'storage/Course_photos/math.jpg',
+            'photo'=>'/storage/Course_photos/math.jpg',
             'user_id'=>'1',
             'subject_id'=>'1'        ]);
 

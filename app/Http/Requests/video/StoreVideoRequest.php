@@ -24,7 +24,8 @@ class StoreVideoRequest extends FormRequest
         return [
             'name' => 'required|string|max:255', // max length based on typical DB VARCHAR
             'video' => 'required|file|max:10000000',
-            'description' => 'required|string|max:255'
+            'description' => 'required|string|max:255',
+            'subject_id'=>'required|int'
         ];
     }
 }

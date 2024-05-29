@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 use App\Exceptions\courseNotFoundException;
+use App\Exceptions\FailedException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UserException;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Traits\StorePhotoTrait;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use NextApps\VerificationCode\VerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -115,17 +117,38 @@ class AuthRepository implements AuthRepositoryInterface
 
         try{
             DB::beginTransaction();
+            $currentUser = auth()->user();
+
+            if ($currentUser->id != $id) {
+
+                throw new Exception('Unauthorized');
+
+            }
+
             $user = $this->user->find($id);
 
             if (!$user) {
-                throw new courseNotFoundException();
+                throw new NotFoundException();
             }
+            $userType = auth()->user()->user_type;
 
             $user->name = $data['name']?? $user->name;
             $user->email = $data['email'] ?? $user->email;
             $user->phone = $data['phone']?? $user->phone;
-            $user->school = $data['school'] ?? $user->school;
-            $user->bio = $data['bio'] ?? $user->bio ;
+
+            if (isset($data['school'])) {
+                if ($userType !== 'student') {
+                    throw new FailedException('User must be a student to update school');
+                }
+                $user->school = $data['school'];
+            }
+
+            if (isset($data['bio'])) {
+                if ($userType !== 'teacher') {
+                    throw new FailedException('User must be a teacher to update bio');
+                }
+                $user->bio = $data['bio'];
+            }
 
             if (isset($data['avatar']))
                 $user->avatar = $this->store($data['avatar'], 'user-avatars');
@@ -139,6 +162,7 @@ class AuthRepository implements AuthRepositoryInterface
             throw new UserException("Unable to update user: " . $e->getMessage());
         }
     }
+
 
 
 
